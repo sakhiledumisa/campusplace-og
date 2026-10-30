@@ -21,7 +21,7 @@ Generate an OG image with a custom title.
 
 **Example:**
 ```
-https://your-worker.workers.dev/api/og?title=Welcome%20to%20Campus
+https://og.campusplace.org/api/og?title=Welcome%20to%20Campus
 ```
 
 **Response:**
