@@ -98,7 +98,7 @@ app.get('/', (c) => {
       background: #09090b;
       color: #fafafa;
       min-height: 100vh;
-      padding: 20px;
+      padding: 16px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -109,45 +109,45 @@ app.get('/', (c) => {
     }
     
     .container {
-      max-width: 540px;
-      margin: 80px auto 0;
+      max-width: 520px;
+      margin: 60px auto 0;
     }
     
     h1 {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 600;
       color: #fafafa;
-      margin-bottom: 4px;
-      letter-spacing: -0.015em;
+      margin-bottom: 2px;
+      letter-spacing: -0.01em;
     }
     
     .description {
       color: #a1a1aa;
-      margin-bottom: 28px;
-      font-size: 14px;
+      margin-bottom: 20px;
+      font-size: 13px;
       font-weight: 400;
     }
     
     .form-group {
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     
     label {
       display: block;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
       color: #fafafa;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     
     input[type="text"] {
       width: 100%;
-      padding: 9px 13px;
+      padding: 7px 11px;
       background: #fafafa;
       border: 1px solid #e4e4e7;
-      border-radius: 8px;
+      border-radius: 6px;
       color: #09090b;
-      font-size: 14px;
+      font-size: 13px;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       outline: none;
       font-weight: 400;
@@ -159,7 +159,7 @@ app.get('/', (c) => {
     
     input[type="text"]:focus {
       border-color: #D77655;
-      box-shadow: 0 0 0 3px rgba(215, 118, 85, 0.1);
+      box-shadow: 0 0 0 2px rgba(215, 118, 85, 0.1);
     }
     
     input[type="text"]::placeholder {
@@ -168,14 +168,14 @@ app.get('/', (c) => {
     
     .button-group {
       display: flex;
-      gap: 8px;
+      gap: 6px;
     }
     
     button {
-      padding: 9px 16px;
+      padding: 7px 12px;
       border: none;
-      border-radius: 8px;
-      font-size: 14px;
+      border-radius: 6px;
+      font-size: 13px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -196,11 +196,10 @@ app.get('/', (c) => {
     
     .btn-primary:hover {
       background: #c96844;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     }
     
     .btn-primary:active {
-      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      box-shadow: none;
     }
     
     .btn-primary.loading {
@@ -227,7 +226,6 @@ app.get('/', (c) => {
     .btn-secondary {
       background: #27272a;
       color: #fafafa;
-      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
     
     .btn-secondary:hover {
@@ -235,7 +233,7 @@ app.get('/', (c) => {
     }
     
     .btn-secondary:active {
-      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      background: #27272a;
     }
     
     .btn-secondary.copied {
@@ -248,8 +246,8 @@ app.get('/', (c) => {
     }
     
     .preview-section {
-      margin-top: 40px;
-      padding-top: 32px;
+      margin-top: 28px;
+      padding-top: 24px;
       border-top: 1px solid #27272a;
       display: none;
     }
@@ -259,18 +257,17 @@ app.get('/', (c) => {
     }
     
     .preview-label {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
       color: #fafafa;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     
     .preview-image-container {
       border: 1px solid #27272a;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
       background: #18181b;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
     
     .preview-image {
@@ -297,30 +294,30 @@ app.get('/', (c) => {
         }
     
     .url-container {
-      margin-top: 12px;
-      padding: 12px 14px;
-      background: #18181b;
-      border: 1px solid #27272a;
-      border-radius: 8px;
+      margin-top: 8px;
+      padding: 7px 10px;
+      background: #fafafa;
+      border: 1px solid #e4e4e7;
+      border-radius: 6px;
       font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
       font-size: 12px;
-      color: #a1a1aa;
+      color: #52525b;
       word-break: break-all;
-      line-height: 1.6;
+      line-height: 1.4;
     }
     
     footer {
-      margin-top: 80px;
-      padding-top: 24px;
+      margin-top: 60px;
+      padding-top: 20px;
       border-top: 1px solid #27272a;
       text-align: center;
       color: #52525b;
-      font-size: 12px;
+      font-size: 11px;
     }
     
     @media (max-width: 768px) {
       body {
-        padding: 16px;
+        padding: 12px;
       }
       
       .container {
@@ -328,7 +325,7 @@ app.get('/', (c) => {
       }
       
       h1 {
-        font-size: 16px;
+        font-size: 15px;
       }
       
       .button-group {
@@ -445,7 +442,7 @@ app.get('/', (c) => {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
           updatePreview();
-        }, 500);
+        }, 1000);
       }
     });
     
