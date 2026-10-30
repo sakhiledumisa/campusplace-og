@@ -34,29 +34,49 @@ let cachedCoverImage: string | null = null
 async function getFontBuffer(c: any): Promise<ArrayBuffer> {
   if (cachedFontBuffer) return cachedFontBuffer
   
-  // Fetch font from public assets
-  const fontUrl = new URL('/fonts/SpaceGrotesk-Regular.ttf', c.req.url)
-  const fontResponse = await fetch(fontUrl.toString())
-  if (!fontResponse.ok) {
-    throw new Error('Failed to load font')
+  try {
+    // In production, assets are served at the same origin as the worker
+    // Build absolute URL using the request's origin
+    const url = new URL(c.req.url)
+    const fontUrl = `${url.protocol}//${url.host}/fonts/SpaceGrotesk-Regular.ttf`
+    
+    const fontResponse = await fetch(fontUrl)
+    
+    if (!fontResponse.ok) {
+      throw new Error(`Font fetch failed with status: ${fontResponse.status}`)
+    }
+    
+    cachedFontBuffer = await fontResponse.arrayBuffer()
+    return cachedFontBuffer
+  } catch (error) {
+    console.error('Font loading error:', error)
+    throw new Error(`Failed to load font: ${error}`)
   }
-  cachedFontBuffer = await fontResponse.arrayBuffer()
-  return cachedFontBuffer
 }
 
 async function getCoverImage(c: any): Promise<string> {
   if (cachedCoverImage) return cachedCoverImage
   
-  // Fetch cover image from public assets
-  const imageUrl = new URL('/images/cover.png', c.req.url)
-  const imageResponse = await fetch(imageUrl.toString())
-  if (!imageResponse.ok) {
-    throw new Error('Failed to load cover image')
+  try {
+    // In production, assets are served at the same origin as the worker
+    // Build absolute URL using the request's origin
+    const url = new URL(c.req.url)
+    const imageUrl = `${url.protocol}//${url.host}/images/cover.png`
+    
+    const imageResponse = await fetch(imageUrl)
+    
+    if (!imageResponse.ok) {
+      throw new Error(`Image fetch failed with status: ${imageResponse.status}`)
+    }
+    
+    const arrayBuffer = await imageResponse.arrayBuffer()
+    const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)))
+    cachedCoverImage = `data:image/png;base64,${base64}`
+    return cachedCoverImage
+  } catch (error) {
+    console.error('Cover image loading error:', error)
+    throw new Error(`Failed to load cover image: ${error}`)
   }
-  const arrayBuffer = await imageResponse.arrayBuffer()
-  const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)))
-  cachedCoverImage = `data:image/png;base64,${base64}`
-  return cachedCoverImage
 }
 
 app.get('/', (c) => {
