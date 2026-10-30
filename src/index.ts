@@ -27,9 +27,11 @@ app.use('/api/*', cors({
   maxAge: 86400,
 }))
 
-// Import font and image - Wrangler will bundle these as base64 data URLs
+// Import fonts and image - Wrangler will bundle these as base64 data URLs
 // @ts-ignore
 import fontDataUrl from '../public/fonts/SpaceGrotesk-Regular.ttf'
+// @ts-ignore
+import merriweatherDataUrl from '../public/fonts/Merriweather_24pt-Medium.ttf'
 // @ts-ignore
 import coverDataUrl from '../public/images/cover.png'
 
@@ -58,19 +60,30 @@ function getFontBuffer(): ArrayBuffer {
 }
 
 app.get('/', (c) => {
+  const spaceGroteskDataUrl = fontDataUrl as string
+  const merriweatherFontDataUrl = merriweatherDataUrl as string
+  
   const html = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#09090b">
   <title>OG Image Generator</title>
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <style>
     @font-face {
       font-family: 'Space Grotesk';
-      src: url('/fonts/SpaceGrotesk-Regular.ttf') format('truetype');
+      src: url('${spaceGroteskDataUrl}') format('truetype');
       font-weight: 400;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Merriweather';
+      src: url('${merriweatherFontDataUrl}') format('truetype');
+      font-weight: 500;
       font-display: swap;
     }
     
@@ -81,44 +94,47 @@ app.get('/', (c) => {
     }
     
     body {
-      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-family: 'Merriweather', Georgia, serif;
       background: #09090b;
       color: #fafafa;
       min-height: 100vh;
-      padding: 24px;
+      padding: 20px;
       line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    *{
-    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    * {
+      font-family: 'Merriweather', Georgia, serif;
     }
     
     .container {
-      max-width: 720px;
+      max-width: 540px;
       margin: 80px auto 0;
     }
     
     h1 {
-      font-size: 24px;
+      font-size: 18px;
       font-weight: 600;
       color: #fafafa;
-      margin-bottom: 8px;
-      letter-spacing: -0.025em;
+      margin-bottom: 4px;
+      letter-spacing: -0.015em;
     }
     
     .description {
       color: #a1a1aa;
-      margin-bottom: 48px;
+      margin-bottom: 28px;
       font-size: 14px;
+      font-weight: 400;
     }
     
     .form-group {
-      margin-bottom: 24px;
+      margin-bottom: 12px;
     }
     
     label {
       display: block;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       color: #fafafa;
       margin-bottom: 8px;
@@ -126,23 +142,28 @@ app.get('/', (c) => {
     
     input[type="text"] {
       width: 100%;
-      padding: 10px 12px;
-      background: #18181b;
-      border: 1px solid #27272a;
-      border-radius: 6px;
-      color: #fafafa;
+      padding: 9px 13px;
+      background: #fafafa;
+      border: 1px solid #e4e4e7;
+      border-radius: 8px;
+      color: #09090b;
       font-size: 14px;
-      transition: all 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       outline: none;
+      font-weight: 400;
     }
     
     input[type="text"]:hover {
-      border-color: #3f3f46;
+      border-color: #d4d4d8;
     }
     
     input[type="text"]:focus {
-      border-color: #52525b;
-      background: #18181b;
+      border-color: #D77655;
+      box-shadow: 0 0 0 3px rgba(215, 118, 85, 0.1);
+    }
+    
+    input[type="text"]::placeholder {
+      color: #a1a1aa;
     }
     
     .button-group {
@@ -151,35 +172,40 @@ app.get('/', (c) => {
     }
     
     button {
-      padding: 10px 16px;
-      border: 1px solid #27272a;
-      border-radius: 6px;
+      padding: 9px 16px;
+      border: none;
+      border-radius: 8px;
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       outline: none;
       position: relative;
       overflow: hidden;
     }
     
     button:active {
-      transform: scale(0.98);
+      transform: translateY(0.5px);
     }
     
     .btn-primary {
-      background: #fafafa;
-      color: #09090b;
-      border-color: #fafafa;
+      background: #D77655;
+      color: #ffffff;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
     
     .btn-primary:hover {
-      background: #e4e4e7;
-      border-color: #e4e4e7;
+      background: #c96844;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-primary:active {
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
     
     .btn-primary.loading {
       pointer-events: none;
+      opacity: 0.85;
     }
     
     .btn-primary.loading::after {
@@ -189,8 +215,8 @@ app.get('/', (c) => {
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(9, 9, 11, 0.1), transparent);
-      animation: shimmer 0.8s ease-in-out;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      animation: shimmer 1.2s ease-in-out;
     }
     
     @keyframes shimmer {
@@ -199,42 +225,31 @@ app.get('/', (c) => {
     }
     
     .btn-secondary {
-      background: transparent;
+      background: #27272a;
       color: #fafafa;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
     
     .btn-secondary:hover {
-      background: #18181b;
-      border-color: #3f3f46;
+      background: #3f3f46;
+    }
+    
+    .btn-secondary:active {
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
     
     .btn-secondary.copied {
-      background: #18181b;
-      border-color: #52525b;
+      background: #D77655;
+      color: #ffffff;
     }
     
     .btn-secondary.copied::before {
       content: '✓ ';
-      animation: checkmark 0.3s ease-out;
-    }
-    
-    @keyframes checkmark {
-      0% {
-        opacity: 0;
-        transform: scale(0.5);
-      }
-      50% {
-        transform: scale(1.2);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
     }
     
     .preview-section {
-      margin-top: 48px;
-      padding-top: 48px;
+      margin-top: 40px;
+      padding-top: 32px;
       border-top: 1px solid #27272a;
       display: none;
     }
@@ -244,17 +259,18 @@ app.get('/', (c) => {
     }
     
     .preview-label {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       color: #fafafa;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     
     .preview-image-container {
       border: 1px solid #27272a;
-      border-radius: 8px;
+      border-radius: 10px;
       overflow: hidden;
       background: #18181b;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
     
     .preview-image {
@@ -263,15 +279,16 @@ app.get('/', (c) => {
     }
     
     .url-container {
-      margin-top: 16px;
-      padding: 12px;
+      margin-top: 12px;
+      padding: 12px 14px;
       background: #18181b;
       border: 1px solid #27272a;
-      border-radius: 6px;
-      font-family: 'Monaco', 'Courier New', monospace;
-      font-size: 13px;
+      border-radius: 8px;
+      font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+      font-size: 12px;
       color: #a1a1aa;
       word-break: break-all;
+      line-height: 1.6;
     }
     
     footer {
@@ -280,16 +297,20 @@ app.get('/', (c) => {
       border-top: 1px solid #27272a;
       text-align: center;
       color: #52525b;
-      font-size: 13px;
+      font-size: 12px;
     }
     
     @media (max-width: 768px) {
+      body {
+        padding: 16px;
+      }
+      
       .container {
         margin-top: 40px;
       }
       
       h1 {
-        font-size: 20px;
+        font-size: 16px;
       }
       
       .button-group {
