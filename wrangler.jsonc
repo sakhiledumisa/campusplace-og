@@ -6,6 +6,18 @@
   "assets": {
     "directory": "./public"
   },
+  "rules": [
+    {
+      "type": "Data",
+      "globs": ["**/*.ttf"],
+      "fallthrough": true
+    },
+    {
+      "type": "Data",
+      "globs": ["**/*.png", "**/*.jpg", "**/*.jpeg"],
+      "fallthrough": true
+    }
+  ],
   "observability": {
     "enabled": false,
     "head_sampling_rate": 1,

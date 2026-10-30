@@ -27,56 +27,34 @@ app.use('/api/*', cors({
   maxAge: 86400,
 }))
 
+// Import font and image - Wrangler will bundle these as base64 data URLs
+// @ts-ignore
+import fontDataUrl from '../public/fonts/SpaceGrotesk-Regular.ttf'
+// @ts-ignore
+import coverDataUrl from '../public/images/cover.png'
+
 // Cache font buffer once per Worker instance
 let cachedFontBuffer: ArrayBuffer | null = null
-let cachedCoverImage: string | null = null
 
-async function getFontBuffer(c: any): Promise<ArrayBuffer> {
+function getFontBuffer(): ArrayBuffer {
   if (cachedFontBuffer) return cachedFontBuffer
   
-  try {
-    // In production, assets are served at the same origin as the worker
-    // Build absolute URL using the request's origin
-    const url = new URL(c.req.url)
-    const fontUrl = `${url.protocol}//${url.host}/fonts/SpaceGrotesk-Regular.ttf`
-    
-    const fontResponse = await fetch(fontUrl)
-    
-    if (!fontResponse.ok) {
-      throw new Error(`Font fetch failed with status: ${fontResponse.status}`)
-    }
-    
-    cachedFontBuffer = await fontResponse.arrayBuffer()
+  // If fontDataUrl is already an ArrayBuffer, use it directly
+  if (fontDataUrl instanceof ArrayBuffer) {
+    cachedFontBuffer = fontDataUrl
     return cachedFontBuffer
-  } catch (error) {
-    console.error('Font loading error:', error)
-    throw new Error(`Failed to load font: ${error}`)
   }
-}
-
-async function getCoverImage(c: any): Promise<string> {
-  if (cachedCoverImage) return cachedCoverImage
   
-  try {
-    // In production, assets are served at the same origin as the worker
-    // Build absolute URL using the request's origin
-    const url = new URL(c.req.url)
-    const imageUrl = `${url.protocol}//${url.host}/images/cover.png`
-    
-    const imageResponse = await fetch(imageUrl)
-    
-    if (!imageResponse.ok) {
-      throw new Error(`Image fetch failed with status: ${imageResponse.status}`)
-    }
-    
-    const arrayBuffer = await imageResponse.arrayBuffer()
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)))
-    cachedCoverImage = `data:image/png;base64,${base64}`
-    return cachedCoverImage
-  } catch (error) {
-    console.error('Cover image loading error:', error)
-    throw new Error(`Failed to load cover image: ${error}`)
+  // Otherwise it's a data URL string, decode it
+  const dataUrl = fontDataUrl as string
+  const base64 = dataUrl.includes(',') ? dataUrl.split(',')[1] : dataUrl
+  const binary = atob(base64)
+  const bytes = new Uint8Array(binary.length)
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i)
   }
+  cachedFontBuffer = bytes.buffer
+  return cachedFontBuffer
 }
 
 app.get('/', (c) => {
@@ -445,10 +423,8 @@ app.get('/api/og', async (c) => {
   try {
     const title = c.req.query('title') || 'CampusPlace'
     
-    const [fontBuffer, coverDataUrl] = await Promise.all([
-      getFontBuffer(c),
-      getCoverImage(c)
-    ])
+    const fontBuffer = getFontBuffer()
+    const coverImage = coverDataUrl as string
 
     return ImageResponse.create(
       h('div', {
@@ -461,7 +437,7 @@ app.get('/api/og', async (c) => {
         }
       },
         h('img', {
-          src: coverDataUrl,
+          src: coverImage,
           alt: '',
           style: {
             position: 'absolute',
