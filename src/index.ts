@@ -147,9 +147,9 @@ app.get('/', (c) => {
     input[type="text"] {
       width: 100%;
       padding: 10px 14px;
-      background: #18181b;
+      background: #09090b;
       border: 1px solid #27272a;
-      border-radius: 8px;
+      border-radius: 6px;
       color: #fafafa;
       font-size: 14px;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -163,11 +163,12 @@ app.get('/', (c) => {
     
     input[type="text"]:focus {
       border-color: #D77655;
-      background: #18181b;
+      background: #09090b;
+      box-shadow: 0 0 0 1px #D77655;
     }
     
     input[type="text"]::placeholder {
-      color: #52525b;
+      color: #71717a;
     }
     
     .button-group {
@@ -180,11 +181,11 @@ app.get('/', (c) => {
     button {
       padding: 10px 20px;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.15s ease;
       outline: none;
       position: relative;
       overflow: hidden;
@@ -195,16 +196,16 @@ app.get('/', (c) => {
     }
     
     .btn-primary {
-      background: #fafafa;
-      color: #0a0a0a;
+      background: #D77655;
+      color: #ffffff;
     }
     
     .btn-primary:hover {
-      background: #e4e4e7;
+      background: #c96844;
     }
     
     .btn-primary:active {
-      background: #d4d4d8;
+      background: #b85a3a;
     }
     
     .btn-primary.loading {
@@ -219,7 +220,7 @@ app.get('/', (c) => {
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(10, 10, 10, 0.1), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
       animation: shimmer 1.2s ease-in-out;
     }
     
@@ -229,24 +230,23 @@ app.get('/', (c) => {
     }
     
     .btn-secondary {
-      background: transparent;
-      color: #a1a1aa;
+      background: #18181b;
+      color: #fafafa;
       border: 1px solid #27272a;
     }
     
     .btn-secondary:hover {
-      background: #18181b;
-      color: #fafafa;
+      background: #27272a;
       border-color: #3f3f46;
     }
     
     .btn-secondary:active {
-      background: #27272a;
+      background: #1c1c1f;
     }
     
     .btn-secondary.copied {
-      background: #18181b;
-      color: #D77655;
+      background: #D77655;
+      color: #ffffff;
       border-color: #D77655;
     }
     
@@ -257,7 +257,7 @@ app.get('/', (c) => {
     .preview-section {
       margin-top: 48px;
       padding-top: 48px;
-      border-top: 1px solid #27272a;
+      border-top: 1px solid #18181b;
       display: none;
       text-align: left;
     }
@@ -275,7 +275,7 @@ app.get('/', (c) => {
     
     .preview-image-container {
       border: 1px solid #27272a;
-      border-radius: 12px;
+      border-radius: 6px;
       overflow: hidden;
       background: #18181b;
     }
@@ -305,13 +305,12 @@ app.get('/', (c) => {
     
     .url-container {
       margin-top: 12px;
-      padding: 10px 12px;
-      background: #18181b;
-      border: 1px solid #27272a;
-      border-radius: 8px;
+      padding: 0;
+      background: transparent;
+      border: none;
       font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
       font-size: 12px;
-      color: #71717a;
+      color: #52525b;
       word-break: break-all;
       line-height: 1.5;
     }
@@ -319,7 +318,7 @@ app.get('/', (c) => {
     footer {
       margin-top: 80px;
       padding-top: 32px;
-      border-top: 1px solid #27272a;
+      border-top: 1px solid #18181b;
       text-align: center;
       color: #52525b;
       font-size: 12px;
