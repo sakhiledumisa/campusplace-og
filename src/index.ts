@@ -69,7 +69,7 @@ app.get('/', (c) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#09090b">
+  <meta name="theme-color" content="#0a0a0a">
   <title>OG Image Generator</title>
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <style>
@@ -95,11 +95,11 @@ app.get('/', (c) => {
     
     body {
       font-family: 'Merriweather', Georgia, serif;
-      background: #09090b;
+      background: #0a0a0a;
       color: #fafafa;
       min-height: 100vh;
-      padding: 16px;
-      line-height: 1.5;
+      padding: 24px;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -109,73 +109,79 @@ app.get('/', (c) => {
     }
     
     .container {
-      max-width: 520px;
-      margin: 60px auto 0;
+      max-width: 480px;
+      margin: 100px auto 0;
+      text-align: center;
     }
     
     h1 {
-      font-size: 16px;
+      font-size: 32px;
       font-weight: 600;
       color: #fafafa;
-      margin-bottom: 2px;
-      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
     }
     
     .description {
-      color: #a1a1aa;
-      margin-bottom: 20px;
-      font-size: 13px;
+      color: #71717a;
+      margin-bottom: 32px;
+      font-size: 14px;
       font-weight: 400;
+      line-height: 1.6;
     }
     
     .form-group {
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+      text-align: left;
     }
     
     label {
       display: block;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 500;
       color: #fafafa;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
     
     input[type="text"] {
       width: 100%;
-      padding: 7px 11px;
-      background: #fafafa;
-      border: 1px solid #e4e4e7;
-      border-radius: 6px;
-      color: #09090b;
-      font-size: 13px;
+      padding: 10px 14px;
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 8px;
+      color: #fafafa;
+      font-size: 14px;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       outline: none;
       font-weight: 400;
     }
     
     input[type="text"]:hover {
-      border-color: #d4d4d8;
+      border-color: #3f3f46;
     }
     
     input[type="text"]:focus {
       border-color: #D77655;
-      box-shadow: 0 0 0 2px rgba(215, 118, 85, 0.1);
+      background: #18181b;
     }
     
     input[type="text"]::placeholder {
-      color: #a1a1aa;
+      color: #52525b;
     }
     
     .button-group {
       display: flex;
-      gap: 6px;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 8px;
     }
     
     button {
-      padding: 7px 12px;
+      padding: 10px 20px;
       border: none;
-      border-radius: 6px;
-      font-size: 13px;
+      border-radius: 8px;
+      font-size: 14px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -185,21 +191,20 @@ app.get('/', (c) => {
     }
     
     button:active {
-      transform: translateY(0.5px);
+      transform: scale(0.98);
     }
     
     .btn-primary {
-      background: #D77655;
-      color: #ffffff;
-      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      background: #fafafa;
+      color: #0a0a0a;
     }
     
     .btn-primary:hover {
-      background: #c96844;
+      background: #e4e4e7;
     }
     
     .btn-primary:active {
-      box-shadow: none;
+      background: #d4d4d8;
     }
     
     .btn-primary.loading {
@@ -214,7 +219,7 @@ app.get('/', (c) => {
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      background: linear-gradient(90deg, transparent, rgba(10, 10, 10, 0.1), transparent);
       animation: shimmer 1.2s ease-in-out;
     }
     
@@ -224,12 +229,15 @@ app.get('/', (c) => {
     }
     
     .btn-secondary {
-      background: #27272a;
-      color: #fafafa;
+      background: transparent;
+      color: #a1a1aa;
+      border: 1px solid #27272a;
     }
     
     .btn-secondary:hover {
-      background: #3f3f46;
+      background: #18181b;
+      color: #fafafa;
+      border-color: #3f3f46;
     }
     
     .btn-secondary:active {
@@ -237,8 +245,9 @@ app.get('/', (c) => {
     }
     
     .btn-secondary.copied {
-      background: #D77655;
-      color: #ffffff;
+      background: #18181b;
+      color: #D77655;
+      border-color: #D77655;
     }
     
     .btn-secondary.copied::before {
@@ -246,10 +255,11 @@ app.get('/', (c) => {
     }
     
     .preview-section {
-      margin-top: 28px;
-      padding-top: 24px;
+      margin-top: 48px;
+      padding-top: 48px;
       border-top: 1px solid #27272a;
       display: none;
+      text-align: left;
     }
     
     .preview-section.active {
@@ -257,15 +267,15 @@ app.get('/', (c) => {
     }
     
     .preview-label {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 500;
       color: #fafafa;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
     
     .preview-image-container {
       border: 1px solid #27272a;
-      border-radius: 8px;
+      border-radius: 12px;
       overflow: hidden;
       background: #18181b;
     }
@@ -281,55 +291,56 @@ app.get('/', (c) => {
         }
 
         ::-webkit-scrollbar-track {
-            background: #000000;
+            background: #0a0a0a;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #1a1a1a;
+            background: #27272a;
             border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #2a2a2a;
+            background: #3f3f46;
         }
     
     .url-container {
-      margin-top: 8px;
-      padding: 7px 10px;
-      background: #fafafa;
-      border: 1px solid #e4e4e7;
-      border-radius: 6px;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 8px;
       font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
       font-size: 12px;
-      color: #52525b;
+      color: #71717a;
       word-break: break-all;
-      line-height: 1.4;
+      line-height: 1.5;
     }
     
     footer {
-      margin-top: 60px;
-      padding-top: 20px;
+      margin-top: 80px;
+      padding-top: 32px;
       border-top: 1px solid #27272a;
       text-align: center;
       color: #52525b;
-      font-size: 11px;
+      font-size: 12px;
     }
     
     @media (max-width: 768px) {
       body {
-        padding: 12px;
+        padding: 16px;
       }
       
       .container {
-        margin-top: 40px;
+        margin-top: 60px;
       }
       
       h1 {
-        font-size: 15px;
+        font-size: 28px;
       }
       
       .button-group {
         flex-direction: column;
+        gap: 8px;
       }
       
       button {
