@@ -277,6 +277,24 @@ app.get('/', (c) => {
       width: 100%;
       display: block;
     }
+
+    ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000000;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1a1a1a;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2a2a2a;
+        }
     
     .url-container {
       margin-top: 12px;
