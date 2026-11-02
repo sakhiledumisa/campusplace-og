@@ -31,7 +31,7 @@ app.use('/api/*', cors({
 // @ts-ignore
 import fontDataUrl from '../public/fonts/SpaceGrotesk-Regular.ttf'
 // @ts-ignore
-import merriweatherDataUrl from '../public/fonts/Merriweather_24pt-Medium.ttf'
+import dmSansDataUrl from '../public/fonts/DMSans_24pt-Medium.ttf'
 // @ts-ignore
 import coverDataUrl from '../public/images/banner-no-title.png'
 
@@ -61,7 +61,7 @@ function getFontBuffer(): ArrayBuffer {
 
 app.get('/', (c) => {
   const spaceGroteskDataUrl = fontDataUrl as string
-  const merriweatherFontDataUrl = merriweatherDataUrl as string
+  const dmSansFontDataUrl = dmSansDataUrl as string
   
   const html = `
 <!DOCTYPE html>
@@ -69,8 +69,8 @@ app.get('/', (c) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0a0a0a">
-  <title>OG Image Generator</title>
+  <meta name="theme-color" content="#000000">
+  <title>CampusPlace OG Images</title>
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,7 +84,7 @@ app.get('/', (c) => {
     
     body {
       font-family: 'DM Sans' !important;
-      background: #0a0a0a;
+      background: #000000;
       color: #fafafa;
       min-height: 100vh;
       padding: 24px;
@@ -114,52 +114,141 @@ app.get('/', (c) => {
     }
     
     .container {
-      max-width: 480px;
-      margin: 100px auto 0;
-      text-align: center;
+      max-width: 1280px;
+      margin: 0 auto;
     }
     
-    h1 {
-      font-size: 32px;
-      font-weight: 600;
-      color: #fafafa;
-      margin-bottom: 12px;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-    }
-    
-    .description {
-      color: #a1a1aa;
+    .section {
       margin-bottom: 32px;
+    }
+    
+    .og-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    
+    .og-card {
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+    
+    .og-card:hover {
+      border-color: #2a2a2a;
+    }
+    
+    .og-preview {
+      position: relative;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 140px;
+      background: #0a0a0a;
+    }
+    
+    .og-preview img {
+      width: 100%;
+      border-radius: 4px;
+      border: 1px solid #1a1a1a;
+    }
+    
+    .og-content {
+      padding: 12px 16px;
+      border-top: 1px solid #1a1a1a;
+    }
+    
+    .og-title {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 2px;
+      color: #ffffff;
+    }
+    
+    .og-subtitle {
+      font-size: 11px;
+      color: #666666;
+      margin-bottom: 8px;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 6px;
+    }
+    
+    .action-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid #27272a;
+      transition: all 0.2s ease;
+      color: #a1a1aa;
+      cursor: pointer;
+    }
+    
+    .action-btn:hover {
+      background: #27272a;
+      border-color: #3f3f46;
+      color: #ffffff;
+    }
+    
+    .action-btn.copied {
+      background: #27272a;
+      border-color: #a0ec06;
+      color: #a0ec06;
+    }
+    
+    .dynamic-card {
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      border-radius: 12px;
+      padding: 16px;
+    }
+    
+    .dynamic-header {
+      margin-bottom: 12px;
+    }
+    
+    .dynamic-title {
       font-size: 14px;
-      font-weight: 400;
-      line-height: 1.6;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    
+    .dynamic-subtitle {
+      font-size: 12px;
+      color: #666666;
     }
     
     .form-group {
       margin-bottom: 12px;
-      text-align: left;
     }
     
     label {
       display: block;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
-      color: #fafafa;
-      margin-bottom: 8px;
+      color: #a1a1aa;
+      margin-bottom: 6px;
     }
     
     input[type="text"] {
       width: 100%;
-      padding: 10px 14px;
+      padding: 8px 12px;
       background: #09090b;
       border: 1px solid #27272a;
       border-radius: 6px;
       color: #fafafa;
-      font-size: 14px;
+      font-size: 13px;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       outline: none;
-      font-weight: 400;
     }
     
     input[type="text"]:hover {
@@ -178,26 +267,23 @@ app.get('/', (c) => {
     
     .button-group {
       display: flex;
-      gap: 12px;
-      justify-content: center;
-      margin-top: 8px;
+      gap: 8px;
+      align-items: center;
+    }
+    
+    .button-group button {
+      min-height: 36px;
     }
     
     button {
-      padding: 10px 20px;
+      padding: 6px 12px;
       border: none;
       border-radius: 6px;
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.15s ease;
       outline: none;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    button:active {
-      transform: scale(0.98);
     }
     
     .btn-primary {
@@ -209,31 +295,6 @@ app.get('/', (c) => {
       background: #8fd005;
     }
     
-    .btn-primary:active {
-      background: #7eb804;
-    }
-    
-    .btn-primary.loading {
-      pointer-events: none;
-      opacity: 0.85;
-    }
-    
-    .btn-primary.loading::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      animation: shimmer 1.2s ease-in-out;
-    }
-    
-    @keyframes shimmer {
-      0% { left: -100%; }
-      100% { left: 100%; }
-    }
-    
     .btn-secondary {
       background: #18181b;
       color: #fafafa;
@@ -242,11 +303,6 @@ app.get('/', (c) => {
     
     .btn-secondary:hover {
       background: #27272a;
-      border-color: #3f3f46;
-    }
-    
-    .btn-secondary:active {
-      background: #1c1c1f;
     }
     
     .btn-secondary.copied {
@@ -255,142 +311,169 @@ app.get('/', (c) => {
       border-color: #a0ec06;
     }
     
-    .btn-secondary.copied::before {
-      content: '✓ ';
-    }
-    
     .preview-section {
-      margin-top: 48px;
-      padding-top: 48px;
-      border-top: 1px solid #18181b;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #1a1a1a;
       display: none;
-      text-align: left;
     }
     
     .preview-section.active {
       display: block;
     }
     
-    .preview-label {
-      font-size: 13px;
-      font-weight: 500;
-      color: #fafafa;
-      margin-bottom: 12px;
-    }
-    
     .preview-image-container {
-      border: 1px solid #27272a;
+      border: 1px solid #1a1a1a;
       border-radius: 6px;
       overflow: hidden;
-      background: #18181b;
+      background: #0f0f0f;
+      margin-bottom: 8px;
     }
     
     .preview-image {
       width: 100%;
       display: block;
     }
-
-    ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #27272a;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #3f3f46;
-        }
     
-    .url-container {
-      margin-top: 12px;
-      padding: 0;
-      background: transparent;
-      border: none;
-      font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
-      font-size: 12px;
+    .url-display {
+      font-size: 10px;
       color: #52525b;
       word-break: break-all;
-      line-height: 1.5;
+      line-height: 1.4;
     }
     
-    footer {
-      margin-top: 80px;
-      padding-top: 32px;
-      border-top: 1px solid #18181b;
-      text-align: center;
-      color: #52525b;
-      font-size: 12px;
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #000000;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #1a1a1a;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2a2a2a;
     }
     
     @media (max-width: 768px) {
-      body {
-        padding: 16px;
-      }
-      
-      .container {
-        margin-top: 60px;
+      .dynamic-card {
+        grid-column: span 1;
       }
       
       h1 {
         font-size: 28px;
       }
       
-      .button-group {
-        flex-direction: column;
-        gap: 8px;
+      .og-grid {
+        grid-template-columns: 1fr;
       }
-      
-      button {
-        width: 100%;
-      }
+    }
+    
+    footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #1a1a1a;
+      text-align: center;
+      color: #52525b;
+      font-size: 12px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>OG Image Generator</h1>
-    <p class="description">Generate Open Graph images for CampusPlace</p>
+    <header>
+      <h1>CampusPlace OG Images</h1>
+      <p class="description">Open Graph images for social sharing</p>
+    </header>
     
-    <form id="ogForm">
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input 
-          type="text" 
-          id="title" 
-          name="title" 
-          placeholder="Enter your title..."
-          value="Campus Place — Trusted student ecosystems for South African campuses"
-          autofocus
-        />
+    <!-- Dynamic Generator Section -->
+    <section class="section">
+      <div class="og-grid">
+        <div class="dynamic-card">
+          <form id="ogForm">
+            <div class="form-group">
+              <input 
+                type="text" 
+                id="title" 
+                name="title" 
+                placeholder="Enter title..."
+                value="Campus Place — Trusted student ecosystems for South African campuses"
+              />
+            </div>
+            
+            <div class="button-group">
+              <button type="submit" class="btn-primary">Generate</button>
+              <button type="button" class="btn-secondary" onclick="copyDynamicUrl()">Copy</button>
+              <button type="button" class="action-btn" onclick="openDynamicUrl()" title="Open">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+              </button>
+            </div>
+            
+            <div class="preview-section" id="preview">
+              <div class="preview-image-container">
+                <img class="preview-image" id="previewImage" alt="OG Image Preview" />
+              </div>
+              <div class="url-display" id="urlBox"></div>
+            </div>
+          </form>
+        </div>
       </div>
-      
-      <div class="button-group">
-        <button type="submit" class="btn-primary">Generate</button>
-        <button type="button" class="btn-secondary" onclick="copyUrl()">Copy URL</button>
-      </div>
-    </form>
+    </section>
     
-    <div class="preview-section" id="preview">
-      <div class="preview-label">Preview</div>
-      <div class="preview-image-container">
-        <img class="preview-image" id="previewImage" alt="OG Image Preview" />
-      </div>
-      <div class="url-container" id="urlBox"></div>
-    </div>
-    
-    <footer>
-      CampusPlace OG Generator
-    </footer>
+    <!-- Static OG Images Section -->
+    <section class="section">
+      <h2 class="section-title">Static OG Images</h2>
+      <div class="og-grid" id="staticImages"></div>
+    </section>
   </div>
   
   <script>
+    // Static OG images data
+    const ogImages = [
+      { name: 'Home', file: 'home.png', size: '1200×630' },
+      { name: 'Blog', file: 'blog.png', size: '1200×630' },
+      { name: 'How It Works', file: 'how-it-works.png', size: '1200×630' },
+      { name: 'Who Is This For', file: 'who-is-this-for.png', size: '1200×630' },
+      { name: 'Trust & Safety', file: 'trust-and-safety.png', size: '1200×630' },
+      { name: 'Legal & Trust', file: 'legal-and-trust.png', size: '1200×630' },
+      { name: 'Universities & Regions', file: 'universities-and-regions.png', size: '1200×630' },
+      { name: 'Banner (No Title)', file: 'banner-no-title.png', size: '1200×630' },
+      { name: 'Banner (Titled)', file: 'banner-titled.png', size: '1200×630' }
+    ];
+    
+    // Render static images
+    const container = document.getElementById('staticImages');
+    ogImages.forEach(img => {
+      const card = document.createElement('div');
+      card.className = 'og-card';
+      card.innerHTML = \`
+        <div class="og-preview">
+          <img src="https://static.campusplace.org/og/\${img.file}" alt="\${img.name}" />
+        </div>
+        <div class="og-content">
+          <h3 class="og-title">\${img.name}</h3>
+          <p class="og-subtitle">PNG • \${img.size}</p>
+          <div class="action-buttons">
+            <button class="btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="copyStaticUrl('og/\${img.file}')">Copy</button>
+            <a href="https://static.campusplace.org/og/\${img.file}" target="_blank" class="action-btn" title="Open">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      \`;
+      container.appendChild(card);
+    });
+    
+    // Dynamic generator logic
     const form = document.getElementById('ogForm');
     const titleInput = document.getElementById('title');
     const preview = document.getElementById('preview');
@@ -406,39 +489,38 @@ app.get('/', (c) => {
     
     function updatePreview() {
       const url = generateUrl();
-      const btn = form.querySelector('.btn-primary');
-      
-      // Add loading animation
-      btn.classList.add('loading');
-      btn.textContent = 'Generating...';
-      
       previewImage.src = url + '&t=' + Date.now();
       urlBox.textContent = url;
       preview.classList.add('active');
-      
-      // Remove loading state after image loads or timeout
-      previewImage.onload = () => {
-        setTimeout(() => {
-          btn.classList.remove('loading');
-          btn.textContent = 'Generate';
-        }, 300);
-      };
-      
-      setTimeout(() => {
-        btn.classList.remove('loading');
-        btn.textContent = 'Generate';
-      }, 3000);
     }
     
-    function copyUrl() {
+    function copyDynamicUrl() {
       const url = generateUrl();
+      const btn = event.target;
+      
+      navigator.clipboard.writeText(url).then(() => {
+        btn.classList.add('copied');
+        btn.textContent = 'Copied';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.textContent = 'Copy';
+        }, 2000);
+      });
+    }
+    
+    function openDynamicUrl() {
+      const url = generateUrl();
+      window.open(url, '_blank');
+    }
+    
+    function copyStaticUrl(path) {
+      const url = \`https://static.campusplace.org/\${path}\`;
       const btn = event.target;
       const originalText = btn.textContent;
       
       navigator.clipboard.writeText(url).then(() => {
         btn.classList.add('copied');
         btn.textContent = 'Copied';
-        
         setTimeout(() => {
           btn.classList.remove('copied');
           btn.textContent = originalText;
@@ -463,6 +545,10 @@ app.get('/', (c) => {
     
     updatePreview();
   </script>
+  
+  <footer>
+    <p>CampusPlace OG Generator</p>
+  </footer>
 </body>
 </html>
   `;
