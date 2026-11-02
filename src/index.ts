@@ -33,7 +33,7 @@ import fontDataUrl from '../public/fonts/SpaceGrotesk-Regular.ttf'
 // @ts-ignore
 import merriweatherDataUrl from '../public/fonts/Merriweather_24pt-Medium.ttf'
 // @ts-ignore
-import coverDataUrl from '../public/images/cover.png'
+import coverDataUrl from '../public/images/banner-no-title.png'
 
 // Cache font buffer once per Worker instance
 let cachedFontBuffer: ArrayBuffer | null = null
@@ -72,21 +72,10 @@ app.get('/', (c) => {
   <meta name="theme-color" content="#0a0a0a">
   <title>OG Image Generator</title>
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    @font-face {
-      font-family: 'Space Grotesk';
-      src: url('${spaceGroteskDataUrl}') format('truetype');
-      font-weight: 400;
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: 'Merriweather';
-      src: url('${merriweatherFontDataUrl}') format('truetype');
-      font-weight: 500;
-      font-display: swap;
-    }
-    
     * {
       margin: 0;
       padding: 0;
@@ -94,7 +83,7 @@ app.get('/', (c) => {
     }
     
     body {
-      font-family: 'Merriweather', Georgia, serif;
+      font-family: 'DM Sans' !important;
       background: #0a0a0a;
       color: #fafafa;
       min-height: 100vh;
@@ -103,9 +92,25 @@ app.get('/', (c) => {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-
-    * {
-      font-family: 'Merriweather', Georgia, serif;
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Space Grotesk' !important;
+    }
+    
+    label {
+      font-family: 'Space Grotesk' !important;
+    }
+    
+    .preview-label {
+      font-family: 'Space Grotesk' !important;
+    }
+    
+    input, button, textarea, select {
+      font-family: 'DM Sans' !important;
+    }
+    
+    .url-container {
+      font-family: 'Space Grotesk' !important;
     }
     
     .container {
@@ -124,7 +129,7 @@ app.get('/', (c) => {
     }
     
     .description {
-      color: #71717a;
+      color: #a1a1aa;
       margin-bottom: 32px;
       font-size: 14px;
       font-weight: 400;
@@ -162,9 +167,9 @@ app.get('/', (c) => {
     }
     
     input[type="text"]:focus {
-      border-color: #D77655;
+      border-color: #a0ec06;
       background: #09090b;
-      box-shadow: 0 0 0 1px #D77655;
+      box-shadow: 0 0 0 1px #a0ec06;
     }
     
     input[type="text"]::placeholder {
@@ -196,16 +201,16 @@ app.get('/', (c) => {
     }
     
     .btn-primary {
-      background: #D77655;
-      color: #ffffff;
+      background: #a0ec06;
+      color: #273302;
     }
     
     .btn-primary:hover {
-      background: #c96844;
+      background: #8fd005;
     }
     
     .btn-primary:active {
-      background: #b85a3a;
+      background: #7eb804;
     }
     
     .btn-primary.loading {
@@ -245,9 +250,9 @@ app.get('/', (c) => {
     }
     
     .btn-secondary.copied {
-      background: #D77655;
-      color: #ffffff;
-      border-color: #D77655;
+      background: #a0ec06;
+      color: #273302;
+      border-color: #a0ec06;
     }
     
     .btn-secondary.copied::before {
@@ -361,7 +366,7 @@ app.get('/', (c) => {
           id="title" 
           name="title" 
           placeholder="Enter your title..."
-          value="CampusPlace"
+          value="Campus Place — Trusted student ecosystems for South African campuses"
           autofocus
         />
       </div>
@@ -394,7 +399,7 @@ app.get('/', (c) => {
     let debounceTimer;
     
     function generateUrl() {
-      const title = titleInput.value.trim() || 'CampusPlace';
+      const title = titleInput.value.trim() || 'Campus Place — Trusted student ecosystems for South African campuses';
       const baseUrl = window.location.origin;
       return \`\${baseUrl}/api/og?title=\${encodeURIComponent(title)}\`;
     }
@@ -467,7 +472,7 @@ app.get('/', (c) => {
 
 app.get('/api/og', async (c) => {
   try {
-    const title = c.req.query('title') || 'CampusPlace'
+    const title = c.req.query('title') || 'Campus Place — Trusted student ecosystems for South African campuses'
     
     const fontBuffer = getFontBuffer()
     const coverImage = coverDataUrl as string
@@ -497,7 +502,7 @@ app.get('/api/og', async (c) => {
         h('div', {
           style: {
             position: 'absolute',
-            top: '70px',
+            top: '120px',
             left: '60px',
             display: 'flex',
             maxWidth: '90%',
