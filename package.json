@@ -9,7 +9,7 @@
   "dependencies": {
     "@types/react": "^19.3.0",
     "cf-workers-og": "^3.0.1",
-    "hono": "^4.13.14",
+    "hono": "^4.13.17",
     "react": "^19.3.1"
   },
   "devDependencies": {
